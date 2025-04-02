@@ -7,8 +7,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
-    public bool isMoving;
+
     private float xInput;
+    
+    private int facingDir = 1;
+    private bool facingRight = true;
 
 
     void Start()
@@ -20,11 +23,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Movement();
         CheckInput();
-
+        Movement();
+        FlipController();
         AnimatorControllers();
     }
+
 
     private void CheckInput()
     {
@@ -36,10 +40,12 @@ public class Player : MonoBehaviour
         }
     }
 
+
     private void Movement()
     {
         rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
     }
+
 
     private void Jump()
     {
@@ -49,7 +55,23 @@ public class Player : MonoBehaviour
 
     private void AnimatorControllers()
     {
-        isMoving = rb.linearVelocityX != 0;
-        anim.SetBool("isMoving", isMoving);
+        //bool isMoving = rb.linearVelocityX != 0;
+        anim.SetBool("isMoving", rb.linearVelocityX != 0);
+    }
+
+
+    private void Flip()
+    {
+        facingDir = facingDir * -1;
+        facingRight = !facingRight;
+
+        transform.Rotate(0, 180, 0);
+    }
+
+
+    private void FlipController()
+    {
+        if (rb.linearVelocityX > 0 && !facingRight || rb.linearVelocityX < 0 && facingRight)
+            Flip();
     }
 }
