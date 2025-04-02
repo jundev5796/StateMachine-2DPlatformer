@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 444844671}
   - component: {fileID: 444844670}
   - component: {fileID: 444844672}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 677920784}
   - component: {fileID: 677920783}
   - component: {fileID: 677920782}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -663,7 +663,7 @@ Transform:
   m_GameObject: {fileID: 816922094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4, y: -1.071492, z: 0}
+  m_LocalPosition: {x: -1.4, y: -1.100678, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -684,6 +684,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   jumpForce: 7
+  groundCheckDistance: 1.35
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!70 &816922100
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -718,8 +722,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.09317857, y: -0.28934455}
-  m_Size: {x: 0.7059735, y: 2.1083326}
+  m_Offset: {x: -0.09317857, y: -0.27476537}
+  m_Size: {x: 0.7059735, y: 2.0791743}
   m_Direction: 0
 --- !u!1 &1831349885
 GameObject:
