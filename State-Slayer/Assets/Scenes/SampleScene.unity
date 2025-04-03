@@ -201,8 +201,8 @@ Transform:
   m_GameObject: {fileID: 444844669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2724, y: -2.92, z: 0}
-  m_LocalScale: {x: 15.686697, y: 1, z: 1}
+  m_LocalPosition: {x: -0.0093, y: -6.55, z: 0}
+  m_LocalScale: {x: 25.288525, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -359,7 +359,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -602,7 +602,7 @@ Transform:
   m_GameObject: {fileID: 677920781}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.8, y: -0.14, z: 0}
+  m_LocalPosition: {x: 10.28, y: -4.66, z: 0}
   m_LocalScale: {x: 4.486, y: 4.6164, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -642,8 +642,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 3.5
+  m_Material: {fileID: 6200000, guid: 600a117cf47c663449ed6593e4d3723f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -663,7 +663,7 @@ Transform:
   m_GameObject: {fileID: 816922094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4, y: -1.100678, z: 0}
+  m_LocalPosition: {x: -0.04, y: -4.730681, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -682,8 +682,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c9940e91aaf324d907a3e37cd68caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  jumpForce: 7
+  moveSpeed: 7
+  jumpForce: 12
+  dashSpeed: 15
+  dashDuration: 0.4
+  dashTime: 0
   groundCheckDistance: 1.35
   whatIsGround:
     serializedVersion: 2
