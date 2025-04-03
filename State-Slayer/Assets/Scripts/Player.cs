@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
 
     private void DashAbility()
     {
-        if (dashCooldownTimer < 0)
+        if (dashCooldownTimer < 0 && !isAttacking)
         {
             dashCooldownTimer = dashCooldown;
             dashTime = dashDuration;
