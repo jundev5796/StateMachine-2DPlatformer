@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
     {
         //bool isMoving = rb.linearVelocityX != 0;
         anim.SetBool("isMoving", rb.linearVelocityX != 0);
+        anim.SetBool("isGrounded", isGrounded);
     }
 
 
