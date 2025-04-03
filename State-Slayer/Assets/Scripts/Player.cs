@@ -92,6 +92,7 @@ public class Player : MonoBehaviour
         anim.SetFloat("yVelocity", rb.linearVelocityY);
         anim.SetBool("isMoving", rb.linearVelocityX != 0);
         anim.SetBool("isGrounded", isGrounded);
+        anim.SetBool("isDashing", dashTime > 0);
     }
 
 
