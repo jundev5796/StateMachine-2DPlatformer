@@ -95,6 +95,9 @@ public class Player : MonoBehaviour
 
     private void StartAttackEvent()
     {
+        if (!isGrounded)
+            return;
+
         if (comboTimeWindow < 0)
             comboCounter = 0;
 
@@ -124,6 +127,7 @@ public class Player : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(facingDir * dashSpeed, 0);
         }
+
         else
         {
             rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
