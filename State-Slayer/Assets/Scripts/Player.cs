@@ -11,7 +11,10 @@ public class Player : MonoBehaviour
     [Header("Dash Info")]
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashDuration;
-    [SerializeField] private float dashTime;
+    private float dashTime;
+
+    [SerializeField] private float dashCooldown;
+    private float dashCooldownTimer;
 
     private float xInput;
     
@@ -38,15 +41,12 @@ public class Player : MonoBehaviour
         CheckCollision();
 
         dashTime -= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            dashTime = dashDuration;
-        }
+        dashCooldownTimer -= Time.deltaTime;
 
         FlipController();
         AnimatorControllers();
     }
+
 
     private void CheckCollision()
     {
@@ -61,6 +61,21 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            DashAbility();
+        }
+    }
+
+
+    private void DashAbility()
+    {
+        if (dashCooldownTimer < 0)
+        {
+            dashCooldownTimer = dashCooldown;
+            dashTime = dashDuration;
         }
     }
 

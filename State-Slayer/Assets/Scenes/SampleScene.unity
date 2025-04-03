@@ -686,7 +686,7 @@ MonoBehaviour:
   jumpForce: 12
   dashSpeed: 25
   dashDuration: 0.25
-  dashTime: 0
+  dashCooldown: 1.4
   groundCheckDistance: 1.35
   whatIsGround:
     serializedVersion: 2
