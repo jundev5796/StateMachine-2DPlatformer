@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     {
         if (dashTime > 0)
         {
-            rb.linearVelocity = new Vector2(xInput * dashSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(xInput * dashSpeed, 0);
         }
         else
         {
