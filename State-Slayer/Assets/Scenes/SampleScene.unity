@@ -890,6 +890,7 @@ Transform:
   m_Children:
   - {fileID: 1831349886}
   - {fileID: 1515849487}
+  - {fileID: 984574975}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &816922099
@@ -906,6 +907,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 1515849487}
   groundCheckDistance: 1.35
+  wallCheck: {fileID: 984574975}
+  wallCheckDistance: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -952,6 +955,37 @@ CapsuleCollider2D:
   m_Offset: {x: -0.09317857, y: -0.27476537}
   m_Size: {x: 0.7059735, y: 2.0791743}
   m_Direction: 0
+--- !u!1 &984574974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 984574975}
+  m_Layer: 0
+  m_Name: WallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &984574975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984574974}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 816922097}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1132625222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,6 +1050,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 1132625223}
   groundCheckDistance: 0.18
+  wallCheck: {fileID: 2019542283}
+  wallCheckDistance: 0.7
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -1093,12 +1129,13 @@ Transform:
   m_GameObject: {fileID: 1280399665}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.07, y: -1.295472, z: 0}
+  m_LocalPosition: {x: 1.73, y: -4.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 664487367}
   - {fileID: 1132625223}
+  - {fileID: 2019542283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1515849486
@@ -1255,6 +1292,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cab1f37e90f32f4982ce63f8d97e180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2019542282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2019542283}
+  m_Layer: 0
+  m_Name: WallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2019542283
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019542282}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1280399669}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
