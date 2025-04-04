@@ -16,6 +16,9 @@ public class Enemy_Skeleton : Entity
     {
         base.Update();
 
+        if (!isGrounded)
+            Flip();
+
         rb.linearVelocity = new Vector2(moveSpeed * facingDir, rb.linearVelocity.y);
     }
 }
