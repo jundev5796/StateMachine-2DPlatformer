@@ -18,18 +18,18 @@ public class PlayerState
 
     public virtual void Enter()
     {
-
+        Debug.Log("Enter " + animBoolName);
     }
 
 
     public virtual void Update()
     {
-
+        Debug.Log("Update " + animBoolName);
     }
 
 
     public virtual void Exit()
     {
-
+        Debug.Log("Exit " + animBoolName);
     }
 }
