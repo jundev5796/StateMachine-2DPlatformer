@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player : Entity
 {
+    [Header("Move Info")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
 
@@ -21,14 +22,6 @@ public class Player : Entity
 
     private float xInput;
     
-    private int facingDir = 1;
-    private bool facingRight = true;
-
-    [Header("Collision Info")]
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private LayerMask whatIsGround;
-    private bool isGrounded;
-
 
     protected override void Start()
     {
@@ -42,7 +35,6 @@ public class Player : Entity
 
         CheckInput();
         Movement();
-        CheckCollision();
 
         dashTime -= Time.deltaTime;
         dashCooldownTimer -= Time.deltaTime;
@@ -61,12 +53,6 @@ public class Player : Entity
 
         if (comboCounter > 2)
             comboCounter = 0;
-    }
-
-
-    private void CheckCollision()
-    {
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 
 
@@ -153,24 +139,9 @@ public class Player : Entity
     }
 
 
-    private void Flip()
-    {
-        facingDir = facingDir * -1;
-        facingRight = !facingRight;
-
-        transform.Rotate(0, 180, 0);
-    }
-
-
     private void FlipController()
     {
         if (rb.linearVelocityX > 0 && !facingRight || rb.linearVelocityX < 0 && facingRight)
             Flip();
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - groundCheckDistance));
     }
 }
