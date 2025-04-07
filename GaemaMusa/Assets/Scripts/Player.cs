@@ -6,6 +6,12 @@ public class Player : MonoBehaviour
     public float moveSpeed = 12f;
     public float jumpForce;
 
+    [Header("Collision Info")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private float wallCheckDistance;
+
 
     #region Components
     public Animator anim { get; private set; }
@@ -52,5 +58,12 @@ public class Player : MonoBehaviour
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         rb.linearVelocity = new Vector2(_xVelocity, _yVelocity);
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x + wallCheckDistance, groundCheck.position.y));
     }
 }
