@@ -57,20 +57,16 @@ public class Player : MonoBehaviour
     }
 
 
-    public float timer;
-    public float cooldown = 5;
-
-
     private void Update()
     {
         stateMachine.currentState.Update();
-        FlipController();
     }
 
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         rb.linearVelocity = new Vector2(_xVelocity, _yVelocity);
+        FlipController(_xVelocity);
     }
 
 
@@ -92,9 +88,9 @@ public class Player : MonoBehaviour
     }
 
 
-    public void FlipController()
+    public void FlipController(float _x)
     {
-        if (rb.linearVelocityX > 0 && !facingRight || rb.linearVelocityX < 0 && facingRight)
+        if (_x > 0 && !facingRight || _x < 0 && facingRight)
             Flip();
     }
 }
