@@ -161,8 +161,6 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  timer: 0
-  cooldown: 5
 --- !u!4 &116429207
 Transform:
   m_ObjectHideFlags: 0
