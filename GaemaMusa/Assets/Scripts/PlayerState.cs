@@ -5,6 +5,8 @@ public class PlayerState
     protected PlayerStateMachine stateMachine;
     protected Player player;
 
+    protected Rigidbody2D rb;
+
     protected float xInput;
     private string animBoolName;
 
@@ -20,6 +22,7 @@ public class PlayerState
     public virtual void Enter()
     {
         player.anim.SetBool(animBoolName, true);
+        rb = player.rb;
     }
 
 
