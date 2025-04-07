@@ -53,10 +53,21 @@ public class Player : MonoBehaviour
     }
 
 
+    public float timer;
+    public float cooldown = 5;
+
+
     private void Update()
     {
         stateMachine.currentState.Update();
         FlipController();
+
+        timer -= Time.deltaTime;
+
+        if (timer < 0 && Input.GetKeyDown(KeyCode.R))
+        {
+            timer = cooldown;
+        }
     }
 
 
