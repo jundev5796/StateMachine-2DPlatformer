@@ -150,8 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1c57bfe0ffbba408a85b3fae15c173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 12
-  jumpForce: 5
+  moveSpeed: 8
+  jumpForce: 12
+  dashSpeed: 25
+  dashDuration: 0.4
   groundCheck: {fileID: 873562845}
   groundCheckDistance: 1.4
   wallCheck: {fileID: 1307142040}
@@ -159,6 +161,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  timer: 0
+  cooldown: 5
 --- !u!4 &116429207
 Transform:
   m_ObjectHideFlags: 0
