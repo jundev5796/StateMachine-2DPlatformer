@@ -156,6 +156,9 @@ MonoBehaviour:
   groundCheckDistance: 1.4
   wallCheck: {fileID: 1307142040}
   wallCheckDistance: 0.56
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!4 &116429207
 Transform:
   m_ObjectHideFlags: 0
@@ -532,7 +535,7 @@ GameObject:
   - component: {fileID: 1464704198}
   - component: {fileID: 1464704197}
   - component: {fileID: 1464704196}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
