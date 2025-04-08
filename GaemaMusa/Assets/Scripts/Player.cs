@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [Header("Dash Info")]
     public float dashSpeed;
     public float dashDuration;
+    public float dashDir { get; private set; }
 
     [Header("Collision Info")]
     [SerializeField] private Transform groundCheck;
@@ -69,7 +70,14 @@ public class Player : MonoBehaviour
     private void CheckForDashInput()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            dashDir = Input.GetAxisRaw("Horizontal");
+
+            if (dashDir == 0)
+                dashDir = facingDir;
+
             stateMachine.ChangeState(dashState);
+        }
     }
 
 
