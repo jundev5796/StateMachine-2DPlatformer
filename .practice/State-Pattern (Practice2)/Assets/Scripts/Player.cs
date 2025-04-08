@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    #region Components
     public Animator anim { get; private set; }
+    #endregion
 
 
+    #region States
     public PlayerStateMachine stateMachine { get; private set; }
 
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
+    #endregion
 
 
     private void Awake()
