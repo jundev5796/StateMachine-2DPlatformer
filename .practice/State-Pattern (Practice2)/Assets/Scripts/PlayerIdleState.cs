@@ -29,5 +29,4 @@ public class PlayerIdleState : PlayerState
         base.Exit();
     }
 
-
 }

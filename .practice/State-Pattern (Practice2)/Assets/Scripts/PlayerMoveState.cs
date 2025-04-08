@@ -8,6 +8,7 @@ public class PlayerMoveState : PlayerState
 
     }
 
+
     public override void Enter()
     {
         base.Enter();
