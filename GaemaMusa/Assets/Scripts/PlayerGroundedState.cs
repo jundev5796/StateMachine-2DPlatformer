@@ -23,7 +23,7 @@ public class PlayerGroundedState : PlayerState
         //    stateMachine.ChangeState(player.dashState);
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-            stateMachine.ChangeState(player.primaryAttack);
+            stateMachine.ChangeState(player.primaryAttackState);
 
         if (!player.IsGroundDetected())
             stateMachine.ChangeState(player.airState);

@@ -13,7 +13,7 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Enter();
 
-        rb.linearVelocity = new Vector2(0, 0);
+        player.ZeroVelocity();
     }
 
 
@@ -24,7 +24,7 @@ public class PlayerIdleState : PlayerGroundedState
         if (xInput == player.facingDir && player.IsWallDetected())
             return;
 
-        if (xInput != 0)
+        if (xInput != 0 && !player.isBusy)
             stateMachine.ChangeState(player.moveState);
     }
 
