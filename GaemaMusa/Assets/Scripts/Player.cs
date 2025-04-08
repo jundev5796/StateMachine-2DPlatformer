@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,6 +8,8 @@ public class Player : MonoBehaviour
     public float jumpForce;
 
     [Header("Dash Info")]
+    [SerializeField] private float dashCooldown;
+    private float dashUsageTimer;
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get; private set; }
@@ -69,8 +72,12 @@ public class Player : MonoBehaviour
 
     private void CheckForDashInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        dashUsageTimer -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer < 0)
         {
+            dashUsageTimer = dashCooldown;
+
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)
