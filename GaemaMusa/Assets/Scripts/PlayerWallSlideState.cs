@@ -22,7 +22,10 @@ public class PlayerWallSlideState : PlayerState
         if (xInput != 0 && player.facingDir != xInput)
             stateMachine.ChangeState(player.idleState);
 
-        rb.linearVelocity = new Vector2(0, rb.linearVelocityY * 0.7f);
+        if (yInput < 0)
+            rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
+        else
+            rb.linearVelocity = new Vector2(0, rb.linearVelocityY * 0.7f);
 
         if (player.IsGroundDetected())
             stateMachine.ChangeState(player.idleState);
