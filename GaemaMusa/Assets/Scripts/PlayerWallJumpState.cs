@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlayerWallJump : PlayerState
+public class PlayerWallJumpState : PlayerState
 {
-    public PlayerWallJump(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) 
+    public PlayerWallJumpState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) 
         : base(_player, _stateMachine, _animBoolName)
     {
 
@@ -12,6 +12,9 @@ public class PlayerWallJump : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        stateTimer = 0.4f;
+        player.SetVelocity(5 * -player.facingDir, player.jumpForce);
     }
 
 
@@ -21,6 +24,9 @@ public class PlayerWallJump : PlayerState
 
         if (stateTimer < 0)
             stateMachine.ChangeState(player.airState);
+
+        if (player.IsGroundDetected())
+            stateMachine.ChangeState(player.idleState);
     }
 
 
