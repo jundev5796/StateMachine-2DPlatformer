@@ -5,6 +5,8 @@ public class Player : MonoBehaviour
     [Header("Move Info")]
     public float moveSpeed = 12f;
     public float jumpForce;
+
+    [Header("Dash Info")]
     public float dashSpeed;
     public float dashDuration;
 
@@ -60,6 +62,14 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
+        CheckForDashInput();
+    }
+
+
+    private void CheckForDashInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            stateMachine.ChangeState(dashState);
     }
 
 
