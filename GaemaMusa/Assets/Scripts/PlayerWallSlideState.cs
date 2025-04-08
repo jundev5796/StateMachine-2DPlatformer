@@ -8,6 +8,7 @@ public class PlayerWallSlideState : PlayerState
 
     }
 
+
     public override void Enter()
     {
         base.Enter();
@@ -17,6 +18,14 @@ public class PlayerWallSlideState : PlayerState
     public override void Update()
     {
         base.Update();
+
+        if (xInput != 0 && player.facingDir != xInput)
+            stateMachine.ChangeState(player.idleState);
+
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY * 0.7f);
+
+        if (player.IsGroundDetected())
+            stateMachine.ChangeState(player.idleState);
     }
 
 
