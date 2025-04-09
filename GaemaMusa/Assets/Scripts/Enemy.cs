@@ -1,28 +1,27 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
-    public Rigidbody2D rb { get; private set; }
-    public Animator anim { get; private set; }
+    [Header("Move Info")]
+    public float moveSpeed;
+    public float idleTime;
+
 
     public EnemyStateMachine stateMachine { get; private set; }
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         stateMachine = new EnemyStateMachine();
     }
 
 
-    void Start()
+    protected override void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
-    }
+        base.Update();
 
-
-    void Update()
-    {
         stateMachine.currentState.Update();
     }
 }
