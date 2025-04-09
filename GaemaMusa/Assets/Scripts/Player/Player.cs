@@ -2,7 +2,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     [Header("Attack Detail")]
     public Vector2[] attackMovement;
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     #endregion
 
 
-    private void Awake()
+    protected override void Awake()
     {
         stateMachine = new PlayerStateMachine();
 
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private void Start()
+    protected override void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private void Update()
+    protected override void Update()
     {
         stateMachine.currentState.Update();
         CheckForDashInput();

@@ -22,6 +22,7 @@ public class EnemyState
     public virtual void Enter()
     {
         triggerCalled = false;
+        enemy.anim.SetBool(animBoolName, true);
     }
 
 
@@ -33,6 +34,6 @@ public class EnemyState
 
     public virtual void Exit()
     {
-
+        enemy.anim.SetBool(animBoolName, false);
     }
 }
