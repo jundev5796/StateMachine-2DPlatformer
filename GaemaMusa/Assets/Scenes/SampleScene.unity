@@ -1709,15 +1709,16 @@ MonoBehaviour:
   groundCheck: {fileID: 1512340311}
   groundCheckDistance: 1.05
   wallCheck: {fileID: 2137619780}
-  wallCheckDistance: 0.66
+  wallCheckDistance: 0.85
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   moveSpeed: 1.5
   idleTime: 2
+  attackDistance: 1.5
 --- !u!4 &1130043132
 Transform:
   m_ObjectHideFlags: 0
@@ -14802,7 +14803,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2137619780}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
