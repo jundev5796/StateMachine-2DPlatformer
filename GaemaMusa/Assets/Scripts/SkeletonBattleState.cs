@@ -27,16 +27,25 @@ public class SkeletonBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
+            stateTimer -= enemy.battleTime;
+
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
                 // attack state
                 if (CanAttack())
-                {
-                    enemy.SetZeroVelocity();
                     stateMachine.ChangeState(enemy.attackState);
-                }
-                return;
+                //{
+                //    enemy.SetZeroVelocity();
+                //    stateMachine.ChangeState(enemy.attackState);
+                //}
+                //return;
             }
+        }
+
+        else
+        {
+            if (stateTimer < 0)
+                stateMachine.ChangeState(enemy.idleState);
         }
 
         if (player.position.x > enemy.transform.position.x)
