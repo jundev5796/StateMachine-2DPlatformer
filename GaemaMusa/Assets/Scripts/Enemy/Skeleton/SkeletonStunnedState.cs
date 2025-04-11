@@ -18,7 +18,8 @@ public class SkeletonStunnedState : EnemyState
 
         stateTimer = enemy.stunDuration;
 
-        enemy.SetVelocity(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
+        //enemy.SetVelocity( -enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
+        enemy.rb.linearVelocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
     }
 
 

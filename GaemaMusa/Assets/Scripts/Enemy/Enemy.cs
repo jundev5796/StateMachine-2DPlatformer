@@ -49,7 +49,14 @@ public class Enemy : Entity
     }
 
 
-    protected virtual bool CanBeStunned()
+    public virtual void CloseCounterAttackWindow()
+    {
+        canBeStunned = false;
+        counterImage.SetActive(false);
+    }
+
+
+    public virtual bool CanBeStunned()
     {
         if (canBeStunned)
         {
@@ -60,11 +67,6 @@ public class Enemy : Entity
     }
 
 
-    public virtual void CloseCounterAttackWindow()
-    {
-        canBeStunned = false;
-        counterImage.SetActive(false);
-    }
 
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
