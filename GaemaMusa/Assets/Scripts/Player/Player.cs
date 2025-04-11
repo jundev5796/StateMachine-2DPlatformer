@@ -6,6 +6,7 @@ public class Player : Entity
 {
     [Header("Attack Detail")]
     public Vector2[] attackMovement;
+    
 
     public bool isBusy { get; private set; }
     [Header("Move Info")]
