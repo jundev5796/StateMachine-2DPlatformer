@@ -6,6 +6,7 @@ public class EntityFX : MonoBehaviour
     private SpriteRenderer sr;
 
     [Header("Flash FX")]
+    [SerializeField] private float flashDuration;
     [SerializeField] private Material hitMat;
     private Material originalMat;
 
@@ -21,7 +22,7 @@ public class EntityFX : MonoBehaviour
     {
         sr.material = hitMat;
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(flashDuration);
 
         sr.material = originalMat;
     }
