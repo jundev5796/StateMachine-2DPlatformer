@@ -5,7 +5,6 @@ public class Clone_Skill_Controller : MonoBehaviour
     private SpriteRenderer sr;
 
     [SerializeField] private float colorLoosingSpeed;
-    [SerializeField] private float cloneDuration;
     private float cloneTimer;
 
 
@@ -26,9 +25,9 @@ public class Clone_Skill_Controller : MonoBehaviour
     }
 
 
-    public void SetupClone(Transform _newTransform)
+    public void SetupClone(Transform _newTransform, float _clondDuration)
     {
         transform.position = _newTransform.position;
-        cloneTimer = cloneDuration;
+        cloneTimer = _clondDuration;
     }
 }
