@@ -3,14 +3,19 @@ using UnityEngine;
 public class Clone_Skill_Controller : MonoBehaviour
 {
     private SpriteRenderer sr;
+    private Animator anim;
 
     [SerializeField] private float colorLoosingSpeed;
+    
     private float cloneTimer;
+    [SerializeField] private Transform attackCheck;
+    [SerializeField] private float attackCheckRadius = 0.8f;
 
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
 
@@ -25,9 +30,30 @@ public class Clone_Skill_Controller : MonoBehaviour
     }
 
 
-    public void SetupClone(Transform _newTransform, float _clondDuration)
+    public void SetupClone(Transform _newTransform, float _clondDuration, bool _canAttack)
     {
+        if (_canAttack)
+            anim.SetInteger("AttackNumber", Random.Range(1, 4));
+
         transform.position = _newTransform.position;
         cloneTimer = _clondDuration;
+    }
+
+
+    private void AnimationTrigger()
+    {
+        cloneTimer = -0.1f;
+    }
+
+
+    private void AttackTrigger()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.position, attackCheckRadius);
+
+        foreach (var hit in colliders)
+        {
+            if (hit.GetComponent<Enemy>() != null)
+                hit.GetComponent<Enemy>().Damage();
+        }
     }
 }
