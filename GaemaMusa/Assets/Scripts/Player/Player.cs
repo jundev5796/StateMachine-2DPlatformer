@@ -89,12 +89,11 @@ public class Player : Entity
 
     private void CheckForDashInput()
     {
-        //if (IsWallDetected())
-        //    return;
+        if (IsWallDetected())
+            return;
 
-        dashUsageTimer -= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer < 0)
+       
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
             dashUsageTimer = dashCooldown;
 
