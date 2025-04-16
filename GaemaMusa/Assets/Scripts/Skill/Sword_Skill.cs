@@ -45,8 +45,6 @@ public class Sword_Skill : Skill
     }
 
 
-
-
     public void CreateSword()
     {
         GameObject newSword = Instantiate(swordPrefab, player.transform.transform.position, transform.rotation);
