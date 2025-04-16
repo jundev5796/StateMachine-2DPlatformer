@@ -13,6 +13,7 @@ public class Player : Entity
     [Header("Move Info")]
     public float moveSpeed = 12f;
     public float jumpForce;
+    public float swordReturnImpact;
 
     [Header("Dash Info")]
     public float dashSpeed;
@@ -21,7 +22,7 @@ public class Player : Entity
 
 
     public SkillManager skill { get; private set; }
-    public GameObject sword; //{ get; private set; }
+    public GameObject sword { get; private set; }
 
 
     #region States

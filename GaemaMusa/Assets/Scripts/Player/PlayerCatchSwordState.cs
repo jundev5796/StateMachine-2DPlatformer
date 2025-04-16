@@ -22,7 +22,7 @@ public class PlayerCatchSwordState : PlayerState
         else if (player.transform.position.x < sword.position.x && player.facingDir == -1)
             player.Flip();
 
-        rb.linearVelocity = new Vector2(10 * -player.facingDir, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(player.swordReturnImpact * -player.facingDir, rb.linearVelocity.y);
     }
 
 
@@ -38,6 +38,8 @@ public class PlayerCatchSwordState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        player.StartCoroutine("BusyFor", 0.1f);
     }
 
 }

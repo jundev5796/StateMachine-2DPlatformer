@@ -21,6 +21,8 @@ public class PlayerAimSwordState : PlayerState
     {
         base.Update();
 
+        player.SetZeroVelocity();
+
         if (Input.GetKeyUp(KeyCode.Mouse1))
             stateMachine.ChangeState(player.idleState);
 
@@ -36,5 +38,7 @@ public class PlayerAimSwordState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        player.StartCoroutine("BusyFor", 0.2f);
     }
 }
