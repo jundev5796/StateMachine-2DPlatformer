@@ -8,7 +8,6 @@ public class Player : Entity
     [Header("Attack Detail")]
     public Vector2[] attackMovement;
     public float counterAttackDuration = 0.2f;
-    
 
     public bool isBusy { get; private set; }
     [Header("Move Info")]
@@ -22,6 +21,7 @@ public class Player : Entity
 
 
     public SkillManager skill { get; private set; }
+    public GameObject sword; //{ get; private set; }
 
 
     #region States
@@ -66,7 +66,7 @@ public class Player : Entity
     {
         base.Start();
 
-        skill = SkillManager.instance; 
+        skill = SkillManager.instance;
 
         stateMachine.Initialize(idleState);
     }
@@ -78,6 +78,18 @@ public class Player : Entity
 
         stateMachine.currentState.Update();
         CheckForDashInput();
+    }
+
+
+    public void AssignNewSword(GameObject _newSword)
+    {
+        sword = _newSword;
+    }
+
+
+    public void ClearTheSword()
+    {
+        Destroy(sword);
     }
 
 

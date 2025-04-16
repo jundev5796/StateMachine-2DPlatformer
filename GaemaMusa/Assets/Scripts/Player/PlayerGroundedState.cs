@@ -25,7 +25,7 @@ public class PlayerGroundedState : PlayerState
         if (Input.GetKeyDown(KeyCode.Mouse0))
             stateMachine.ChangeState(player.primaryAttackState);
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && HasNoSword())
             stateMachine.ChangeState(player.aimSwordState);
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -44,4 +44,15 @@ public class PlayerGroundedState : PlayerState
         base.Exit();
     }
 
+
+    private bool HasNoSword()
+    {
+        if (!player.sword)
+        {
+            return true;
+        }
+
+        player.sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
+        return false;
+    }
 }
