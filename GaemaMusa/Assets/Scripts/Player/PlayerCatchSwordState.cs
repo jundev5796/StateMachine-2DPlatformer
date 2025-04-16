@@ -21,12 +21,17 @@ public class PlayerCatchSwordState : PlayerState
             player.Flip();
         else if (player.transform.position.x < sword.position.x && player.facingDir == -1)
             player.Flip();
+
+        rb.linearVelocity = new Vector2(10 * -player.facingDir, rb.linearVelocity.y);
     }
 
 
     public override void Update()
     {
         base.Update();
+
+        if (triggerCalled)
+            stateMachine.ChangeState(player.idleState);
     }
 
 

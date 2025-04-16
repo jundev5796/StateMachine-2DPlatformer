@@ -89,6 +89,7 @@ public class Player : Entity
 
     public void ClearTheSword()
     {
+        stateMachine.ChangeState(catchSwordState);
         Destroy(sword);
     }
 
