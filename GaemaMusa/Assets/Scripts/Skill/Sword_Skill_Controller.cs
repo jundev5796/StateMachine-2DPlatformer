@@ -71,6 +71,13 @@ public class Sword_Skill_Controller : MonoBehaviour
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < 0.1f)
             {
                 targetIndex++;
+                amountOfBounce--;
+
+                if (amountOfBounce <= 0)
+                {
+                    isBouncing = false;
+                    isReturning = true;
+                }
 
                 if (targetIndex >= enemyTarget.Count)
                     targetIndex = 0;
@@ -111,7 +118,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         
-        if (isBouncing)
+        if (isBouncing && enemyTarget.Count > 0)
             return;
 
         anim.SetBool("Rotation", false);
