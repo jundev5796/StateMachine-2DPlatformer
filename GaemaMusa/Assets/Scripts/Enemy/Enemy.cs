@@ -42,6 +42,8 @@ public class Enemy : Entity
     }
 
 
+
+    #region Counter Attack Window
     public virtual void OpenCounterAttackWindow()
     {
         canBeStunned = true;
@@ -54,7 +56,7 @@ public class Enemy : Entity
         canBeStunned = false;
         counterImage.SetActive(false);
     }
-
+    #endregion
 
     public virtual bool CanBeStunned()
     {

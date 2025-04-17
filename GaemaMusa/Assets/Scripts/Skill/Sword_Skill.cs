@@ -24,6 +24,12 @@ public class Sword_Skill : Skill
     [SerializeField] private int pierceAmount;
     [SerializeField] private float pierceGravity;
 
+    [Header("Spin Info")]
+    [SerializeField] private float hitCooldown = 0.35f;
+    [SerializeField] private float maxTravelDistance = 7;
+    [SerializeField] private float spinDuration = 2;
+    [SerializeField] private float spinGravity = 1;
+
     [Header("Skill Info")]
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 launchForce;
@@ -57,6 +63,8 @@ public class Sword_Skill : Skill
             swordGravity = bounceGravity;
         else if (swordType == SwordType.Pierce)
             swordGravity = pierceGravity;
+        else if (swordType == SwordType.Spin)
+            swordGravity = spinGravity;
     }
 
 
@@ -79,13 +87,15 @@ public class Sword_Skill : Skill
 
     public void CreateSword()
     {
-        GameObject newSword = Instantiate(swordPrefab, player.transform.transform.position, transform.rotation);
+        GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
         Sword_Skill_Controller newSwordScript = newSword.GetComponent<Sword_Skill_Controller>();
 
         if (swordType == SwordType.Bounce)
             newSwordScript.SetupBounce(true, bounceAmount);
         else if (swordType == SwordType.Pierce)
             newSwordScript.SetupPierce(pierceAmount);
+        else if (swordType == SwordType.Spin)
+            newSwordScript.SetupSpin(true, maxTravelDistance, spinDuration, hitCooldown);
 
             newSwordScript.SetupSword(finalDir, swordGravity, player);
 
@@ -93,6 +103,7 @@ public class Sword_Skill : Skill
 
         DotsActive(false);
     }
+
 
     #region Aim
     public Vector2 AimDirection()
