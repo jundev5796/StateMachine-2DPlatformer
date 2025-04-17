@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Sword_Skill_Controller : MonoBehaviour
 {
-    [SerializeField] private float returnSpeed = 12;
+    //[SerializeField] private float returnSpeed = 12;
     private Animator anim;
     private Rigidbody2D rb;
     private CircleCollider2D cd;
@@ -14,11 +14,14 @@ public class Sword_Skill_Controller : MonoBehaviour
     private bool canRotate = true;
     private bool isReturning;
 
+    private float freezeTimeDuration;
+    private float returnSpeed = 12;
+
     [Header("Pierce Info")]
     [SerializeField] private float pierceAmount;
 
     [Header("Bounce Info")]
-    [SerializeField] private float bounceSpeed;
+    private float bounceSpeed;
     private bool isBouncing;
     private int bounceAmount;
     public List<Transform> enemyTarget;
@@ -45,9 +48,17 @@ public class Sword_Skill_Controller : MonoBehaviour
     }
 
 
-    public void SetupSword(Vector2 _dir, float _gravityScale, Player _player)
+    private void DestroyMe()
+    {
+        Destroy(gameObject);
+    }
+
+
+    public void SetupSword(Vector2 _dir, float _gravityScale, Player _player, float _freezeTimeDuration, float _returnSpeed)
     {
         player = _player;
+        freezeTimeDuration = _freezeTimeDuration;
+        returnSpeed = _returnSpeed;
 
         rb.linearVelocity = _dir;
         rb.gravityScale = _gravityScale;
@@ -56,13 +67,16 @@ public class Sword_Skill_Controller : MonoBehaviour
             anim.SetBool("Rotation", true);
 
         spinDirection = Mathf.Clamp(rb.linearVelocity.x, -1, 1);
+
+        Invoke("DestroyMe", 7);
     }
 
 
-    public void SetupBounce(bool _isBouncing, int _amountOfBounces)
+    public void SetupBounce(bool _isBouncing, int _amountOfBounces, float _bounceSpeed)
     {
         isBouncing = _isBouncing;
         bounceAmount = _amountOfBounces;
+        bounceSpeed = _bounceSpeed;
 
         enemyTarget = new List<Transform>();
     }
@@ -145,7 +159,7 @@ public class Sword_Skill_Controller : MonoBehaviour
                     foreach (var hit in colliders)
                     {
                         if (hit.GetComponent<Enemy>() != null)
-                            hit.GetComponent<Enemy>().Damage();
+                            SwordSkillDamage(hit.GetComponent<Enemy>());
 
                     }
                 }
@@ -169,7 +183,7 @@ public class Sword_Skill_Controller : MonoBehaviour
 
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < 0.1f)
             {
-                enemyTarget[targetIndex].GetComponent<Enemy>().Damage();
+                SwordSkillDamage(enemyTarget[targetIndex].GetComponent<Enemy>());
 
                 targetIndex++;
                 bounceAmount--;
@@ -192,11 +206,23 @@ public class Sword_Skill_Controller : MonoBehaviour
         if (isReturning)
             return;
 
-        collision.GetComponent<Enemy>()?.Damage();
+        if (collision.GetComponent<Enemy>() != null)
+        {
+            Enemy enemy = collision.GetComponent<Enemy>();
+
+            SwordSkillDamage(enemy);
+        }
 
         SetupTargetsForBounce(collision);
 
         StuckInto(collision);
+    }
+
+
+    private void SwordSkillDamage(Enemy enemy)
+    {
+        enemy.Damage();
+        enemy.StartCoroutine("FreezeTimerFor", freezeTimeDuration);
     }
 
 

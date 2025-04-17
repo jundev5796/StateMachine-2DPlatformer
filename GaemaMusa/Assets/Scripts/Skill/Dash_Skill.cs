@@ -6,6 +6,6 @@ public class Dash_Skill : Skill
     {
         base.UseSkill();
 
-        Debug.Log("Override Function: UseSkill");
+        //Debug.Log("Override Function: UseSkill");
     }
 }
