@@ -51,7 +51,8 @@ public class PlayerBlackholeState : PlayerState
         }
 
         // Exit skill
-
+        if (player.skill.blackhole.BlackholeFinished())
+            stateMachine.ChangeState(player.airState);
     }
 
 
