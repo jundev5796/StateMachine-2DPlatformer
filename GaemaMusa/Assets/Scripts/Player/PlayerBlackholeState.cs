@@ -5,6 +5,8 @@ public class PlayerBlackholeState : PlayerState
     private float flytime = 0.4f;
     private bool skillUsed;
 
+    private float defaultGravity;
+
     public PlayerBlackholeState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) 
         : base(_player, _stateMachine, _animBoolName)
     {
@@ -21,6 +23,8 @@ public class PlayerBlackholeState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        defaultGravity = player.rb.gravityScale;
 
         skillUsed = false;
         stateTimer = flytime;
@@ -45,11 +49,18 @@ public class PlayerBlackholeState : PlayerState
                     skillUsed = true;
             }
         }
+
+        // Exit skill
+
     }
 
 
     public override void Exit()
     {
         base.Exit();
+
+        player.rb.gravityScale = defaultGravity;
+
+        player.MakeTransparent(false);
     }
 }

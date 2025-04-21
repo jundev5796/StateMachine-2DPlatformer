@@ -97,6 +97,12 @@ public class Player : Entity
     }
 
 
+    public void ExitBlackHoleAbility()
+    {
+        stateMachine.ChangeState(airState);
+    }
+
+
     public IEnumerator BusyFor(float _seconds)
     {
         isBusy = true;
