@@ -42,6 +42,7 @@ public class Crystal_Skill_Controller : MonoBehaviour
             if (Vector2.Distance(transform.position, closestTarget.position) < 1)
             {
                 FinishCrystal();
+                canMove = false;
             }
         }
 

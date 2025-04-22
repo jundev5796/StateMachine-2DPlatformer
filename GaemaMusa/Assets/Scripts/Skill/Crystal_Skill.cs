@@ -33,7 +33,7 @@ public class Crystal_Skill : Skill
             player.transform.position = currentCrystal.transform.position;
 
 
-            player.transform.position = currentCrystal.transform.position;
+            currentCrystal.transform.position = playerPos;
             currentCrystal.GetComponent<Crystal_Skill_Controller>()?.FinishCrystal();
         }
     }
