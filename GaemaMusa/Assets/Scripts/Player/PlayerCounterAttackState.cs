@@ -35,7 +35,7 @@ public class PlayerCounterAttackState : PlayerState
                     stateTimer = 10;
                     
                     player.anim.SetBool("CounterSuccess", true);
-                    player.skill.clone.CreateClone(hit.transform, new Vector3(2 * player.facingDir, 0));
+                    player.skill.clone.CreateCloneOnCounterAttack(hit.transform);
                 }
             }
         }
