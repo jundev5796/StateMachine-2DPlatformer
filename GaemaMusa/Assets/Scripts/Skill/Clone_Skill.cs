@@ -17,7 +17,7 @@ public class Clone_Skill : Skill
     [SerializeField] private bool canDuplicateClone;
     [SerializeField] private float chanceToDuplicate;
     [Header("Crystal SP Attack")]
-    [SerializeField] private bool crystalInsteadOfClone;
+    public bool crystalInsteadOfClone;
 
 
     public void CreateClone(Transform _clonePosition, Vector3 _offset)

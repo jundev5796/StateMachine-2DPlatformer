@@ -37,6 +37,9 @@ public class Blackhole_Skill_Controller : MonoBehaviour
         amountOfAttacks = _amountOfAttacks;
         cloneAttackCooldown = _cloneAttackCooldown;
         blackholeTimer = _blackholeDuration;
+
+        if (SkillManager.instance.clone.crystalInsteadOfClone)
+            playerCanDisappear = false;
     }
 
 
@@ -109,8 +112,16 @@ public class Blackhole_Skill_Controller : MonoBehaviour
             else
                 xOffset = -2;
 
+            if (SkillManager.instance.clone.crystalInsteadOfClone)
+            {
+                SkillManager.instance.crystal.CreateCrystal();
+                SkillManager.instance.crystal.CurrentCrystalChooseRandomTarget();
+            }
 
-            SkillManager.instance.clone.CreateClone(targets[randomIndex], new Vector3(xOffset, 0));
+            else
+            {
+                SkillManager.instance.clone.CreateClone(targets[randomIndex], new Vector3(xOffset, 0));
+            }
 
             amountOfAttacks--;
 
@@ -139,7 +150,6 @@ public class Blackhole_Skill_Controller : MonoBehaviour
         {
             Destroy(createHotKey[i]);
         }
-
     }
 
 
@@ -167,13 +177,10 @@ public class Blackhole_Skill_Controller : MonoBehaviour
 
     private void CreateHotKey(Collider2D collision)
     {
-
         if (keyCodeList.Count <= 0)
         {
-
             Debug.LogWarning("Check Input");
             return;
-
         }
 
         if (!canCreateHotKeys)
