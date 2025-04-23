@@ -8,6 +8,8 @@ public class Crystal_Skill : Skill
     [SerializeField] private GameObject crystalPrefab;
     private GameObject currentCrystal;
 
+    [SerializeField] private bool cloneInsteadOfCrystal;
+
     [Header("Explosive crystal")]
     [SerializeField] private bool canExplode;
 
@@ -47,9 +49,17 @@ public class Crystal_Skill : Skill
 
             player.transform.position = currentCrystal.transform.position;
 
-
             currentCrystal.transform.position = playerPos;
-            currentCrystal.GetComponent<Crystal_Skill_Controller>()?.FinishCrystal();
+
+            if (cloneInsteadOfCrystal)
+            {
+                SkillManager.instance.clone.CreateClone(currentCrystal.transform, Vector3.zero);
+                Destroy(currentCrystal);
+            }
+            else
+            {
+                currentCrystal.GetComponent<Crystal_Skill_Controller>()?.FinishCrystal();
+            }
         }
     }
 
@@ -91,7 +101,7 @@ public class Crystal_Skill : Skill
     {
         int amountToAdd = amountOfStacks - crystalLeft.Count;
 
-        for (int i = 0; i < amountOfStacks; i++)
+        for (int i = 0; i < amountToAdd; i++)
         {
             crystalLeft.Add(crystalPrefab);
         }
