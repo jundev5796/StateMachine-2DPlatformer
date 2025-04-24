@@ -2,20 +2,32 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
-    public int damage;
-    public int maxHp;
+    public Stat damage;
+    public Stat maxHealth;
 
     [SerializeField] private int currentHealth;
 
 
     void Start()
     {
-        currentHealth = maxHp;    
+        currentHealth = maxHealth.GetValue();
+
+        // Equip sword +4
+        damage.AddModifier(4);
     }
 
 
     public void TakeDamage(int _damage)
     {
-        currentHealth -= damage;
+        currentHealth -= _damage;
+
+        if (currentHealth < 0)
+            Die();
+    }
+
+
+    private void Die()
+    {
+
     }
 }
