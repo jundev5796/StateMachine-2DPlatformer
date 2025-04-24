@@ -11,7 +11,6 @@ public class Stat
     public List<int> modifiers;
 
 
-
     public int GetValue()
     {
         int finalValue = baseValue;
