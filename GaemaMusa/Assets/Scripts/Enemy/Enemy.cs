@@ -26,6 +26,7 @@ public class Enemy : Entity
 
 
     public EnemyStateMachine stateMachine { get; private set; }
+    public string lastAnimBoolName { get; private set; }
 
 
     protected override void Awake()
@@ -43,6 +44,12 @@ public class Enemy : Entity
         base.Update();
 
         stateMachine.currentState.Update();
+    }
+
+
+    public virtual void AssignLastAnimName(string _animBoolName)
+    {
+        lastAnimBoolName = _animBoolName;
     }
 
 
@@ -96,8 +103,6 @@ public class Enemy : Entity
         }
         return false;
     }
-
-
 
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
