@@ -3,11 +3,13 @@ using UnityEngine;
 public class Enemy_SkeletonAnimationTriggers : MonoBehaviour
 {
     private Enemy_Skeleton enemy => GetComponentInParent<Enemy_Skeleton>();
+    
 
     private void AnimationTrigger()
     {
         enemy.AnimationFinishTrigger();
     }
+    
 
     private void AttackTrigger()
     {
@@ -18,6 +20,7 @@ public class Enemy_SkeletonAnimationTriggers : MonoBehaviour
             if (hit.GetComponent<Player>() != null)
             {
                 PlayerStats target = hit.GetComponent<PlayerStats>();
+
                 enemy.stats.DoDamage(target);
                 // hit.GetComponent<Player>().Damage();
             }
