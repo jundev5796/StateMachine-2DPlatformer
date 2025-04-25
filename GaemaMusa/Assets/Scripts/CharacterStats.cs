@@ -27,15 +27,24 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void DoDamage(CharacterStats _targetStats)
     {
+        if (CanAvoidAttack(_targetStats))
+            return;
+
+        int totalDamage = damage.GetValue() + strength.GetValue();
+        _targetStats.TakeDamage(totalDamage);
+    }
+
+
+    private bool CanAvoidAttack(CharacterStats _targetStats)
+    {
         int totalEvasion = _targetStats.evasion.GetValue() + _targetStats.agility.GetValue();
 
         if (Random.Range(0, 100) < totalEvasion)
         {
-            Debug.Log("Attack successfully evaded.");
+            return true;
         }
 
-        int totalDamage = damage.GetValue() + strength.GetValue();
-        _targetStats.TakeDamage(totalDamage);
+        return false;
     }
 
 
