@@ -2,10 +2,19 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
+    [Header("Basic Stat")]
     public Stat strength;
-    public Stat damage;
-    public Stat maxHealth;
+    public Stat agility;
+    public Stat intellignece;
+    public Stat vitality;
 
+    [Header("Defense Stat")]
+    public Stat maxHealth;
+    public Stat armor;
+    public Stat evasion;
+
+    public Stat damage;
+    
     [SerializeField] private int currentHealth;
 
 
@@ -18,8 +27,14 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void DoDamage(CharacterStats _targetStats)
     {
+        int totalEvasion = _targetStats.evasion.GetValue() + _targetStats.agility.GetValue();
+
+        if (Random.Range(0, 100) < totalEvasion)
+        {
+            Debug.Log("Attack successfully evaded.");
+        }
+
         int totalDamage = damage.GetValue() + strength.GetValue();
-        
         _targetStats.TakeDamage(totalDamage);
     }
 
