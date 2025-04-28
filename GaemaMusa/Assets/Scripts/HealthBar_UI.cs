@@ -4,22 +4,47 @@ using UnityEngine.UI;
 public class HealthBar_UI : MonoBehaviour
 {
     private Entity entity;
+    private CharacterStats myStats;
     private RectTransform myTransform;
     private Slider slider;
 
 
-    void Start()
+    private void Start()
     {
-        entity = GetComponentInParent<Entity>();
-        slider = GetComponent<Slider>();
         myTransform = GetComponent<RectTransform>();
+        entity = GetComponentInParent<Entity>();
+        myStats = GetComponentInParent<CharacterStats>();
+        slider = GetComponentInChildren<Slider>();
 
         entity.onFlipped += FlipUI;
+
+        myStats.onHealthChanged += UpdateHealthUI;
+
+        UpdateHealthUI();
+
+        Debug.Log("Calling Health Bar");
     }
 
 
-    private void FlipUI() => myTransform.Rotate(0, 180, 0);
+    // private void Update()
+    // {
+    //     UpdateHealthUI();
+    // }
 
 
-    private void OnDisable() => entity.onFlipped -= FlipUI;
+    private void UpdateHealthUI()
+    {
+        slider.maxValue = myStats.GetMaxHealthValue();
+        slider.value = myStats.currentHealth;
+    }
+
+
+    public void FlipUI() => myTransform.Rotate(0, 180, 0);
+
+
+    private void OnDisable() 
+    {
+        entity.onFlipped -= FlipUI;
+        myStats.onHealthChanged -= UpdateHealthUI;
+    }    
 }

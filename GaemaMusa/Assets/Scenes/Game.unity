@@ -2480,7 +2480,7 @@ MonoBehaviour:
     rid: 2456471931193393320
   m_ShadowCastingSource: 2
   m_ShadowMesh:
-    m_Mesh: {fileID: 1372381032}
+    m_Mesh: {fileID: 1379122432}
     m_LocalBounds:
       m_Center: {x: 0.004585266, y: -0.82077026, z: 0}
       m_Extent: {x: 0.61363983, y: 0.1829834, z: 0}
@@ -3337,6 +3337,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6022134139292005983, guid: c13290b2396cfa94180955178d65196b, type: 3}
+      propertyPath: vitality.baseValue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6031175219378765190, guid: c13290b2396cfa94180955178d65196b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.74
@@ -3376,6 +3380,14 @@ PrefabInstance:
     - target: {fileID: 6031175219378765190, guid: c13290b2396cfa94180955178d65196b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139525795076782039, guid: c13290b2396cfa94180955178d65196b, type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139525795076782039, guid: c13290b2396cfa94180955178d65196b, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6786391797856031259, guid: c13290b2396cfa94180955178d65196b, type: 3}
       propertyPath: m_Name
@@ -17363,7 +17375,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!43 &1372381032
+--- !u!43 &1379122432
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

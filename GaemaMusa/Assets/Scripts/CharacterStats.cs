@@ -2,307 +2,273 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
-    [Header("기본적인 스탯")]
-    public Stat strength;     // 힘 - 물리 데미지 증가
-    public Stat agility;      // 민첩성 - 회피율과 치명타 확률 증가
-    public Stat intelligence; // 지능 - 마법 데미지 증가
-    public Stat vitality;     // 체력 - 최대 체력 증가
+    [Header("Basic Stats")]
+    public Stat strength;     // Strength - Increases physical damage
+    public Stat agility;      // Agility - Increases evasion and critical hit chance
+    public Stat intelligence; // Intelligence - Increases magical damage
+    public Stat vitality;     // Vitality - Increases maximum health
 
-    [Header("공격관련 스탯")]
-    public Stat damage;       // 기본 데미지
-    public Stat critChance;   // 치명타 확률
-    public Stat critPower;    // 치명타 피해량 증가율
+    [Header("Attack Stats")]
+    public Stat damage;       // Base damage
+    public Stat critChance;   // Critical hit chance
+    public Stat critPower;    // Critical hit damage multiplier
 
+    [Header("Defense Stats")]
+    public Stat maxHealth;    // Maximum health
+    public Stat armor;        // Physical defense
+    public Stat evasion;      // Evasion rate
+    public Stat magicResistance; // Magic resistance
 
-    [Header("방어관련 스탯")]
-    public Stat maxHealth;    // 최대 체력
-    public Stat armor;        // 물리 방어력
-    public Stat evasion;      // 회피율
-    public Stat magicResistance; // 마법 저항
+    [Header("Magic Stats")]
+    public Stat fireDamage;    // Fire damage
+    public Stat iceDamage;     // Ice damage
+    public Stat lightingDamage; // Lightning damage
 
+    public bool isIgnited;    // Whether the character is ignited
+    public bool isChilled;    // Whether the character is chilled
+    public bool isShocked;    // Whether the character is shocked
 
-    [Header("마법 스탯")]
-    public Stat fireDamage;    // 화염 데미지
-    public Stat iceDamage;     // 빙결 데미지
-    public Stat lightingDamage; // 번개 데미지
+    private float ignitedTimer; // Duration of ignite status
+    private float chilledTimer; // Duration of chill status
+    private float shockedTimer; // Duration of shock status
 
+    private float igniteDamageCooldown = 0.3f; // Ignite damage cooldown
+    private float igniteDamageTimer; // Ignite damage timer
 
-    public bool isIgnited;    // 화염 상태 여부
-    public bool isChilled;    // 빙결 상태 여부
-    public bool isShocked;    // 감전 상태 여부
+    private int igniteDamage; // Ignite damage
 
+    public int currentHealth; // Current health
 
-    private float ignitedTimer; // 화염 상태 지속 시간
-    private float chilledTimer; // 빙결 상태 지속 시간
-    private float shockedTimer; // 감전 상태 지속 시간
-
-   
-
-    private float igniteDamageCooldown = 0.3f; // 화염 상태 데미지 쿨타임
-    private float igniteDamageTimer; // 화염 상태 데미지 타이머
-
-    private int igniteDamage; // 화염 상태 데미지
-
-
-
-    [SerializeField]
-    private int currentHealth; // 현재 체력
-
+    public System.Action onHealthChanged; // Handle damage effect (override in child classes)
 
 
     protected virtual void Start()
     {
-        // 기본 치명타 피해량 설정 (150%)
+        // Set default critical hit damage multiplier (150%)
         critPower.SetDefaultValue(150);
-        // 현재 체력을 최대 체력으로 초기화
-        currentHealth = maxHealth.GetValue();                     
-
+        // Initialize current health to maximum health
+        currentHealth = GetMaxHealthValue();
     }
+
 
     protected virtual void Update()
     {
-       ignitedTimer -= Time.deltaTime; // 화염 상태 지속 시간 감소
-       chilledTimer -= Time.deltaTime; // 빙결 상태 지속 시간 감소
-       shockedTimer -= Time.deltaTime; // 감전 상태 지속 시간 감소
+        ignitedTimer -= Time.deltaTime; // Decrease ignite status duration
+        chilledTimer -= Time.deltaTime; // Decrease chill status duration
+        shockedTimer -= Time.deltaTime; // Decrease shock status duration
 
+        igniteDamageTimer -= Time.deltaTime; // Decrease ignite damage cooldown
+        if (ignitedTimer < 0)
+            isIgnited = false; // Remove ignite status
 
-       igniteDamageTimer -= Time.deltaTime; // 화염 상태 데미지 쿨타임 감소
-        if(ignitedTimer <0)
-          isIgnited = false; // 화염 상태 해제
+        if (chilledTimer < 0)
+            isChilled = false; // Remove chill status
 
-        if(chilledTimer <0)
-          isChilled = false; // 빙결 상태 해제
+        if (shockedTimer < 0)
+            isShocked = false; // Remove shock status
 
-        if(shockedTimer <0)
-          isShocked = false; // 감전 상태 해제
-
-
-        if(igniteDamageTimer <0 && isIgnited) // 화염 상태 데미지 쿨타임이 끝나고 화염 상태일 때
+        if (igniteDamageTimer < 0 && isIgnited) // If ignite damage cooldown is over and character is ignited
         {
-         
-            Debug.Log("화염 상태 데미지 적용됨"+igniteDamage);
-            currentHealth -= igniteDamage; // 현재 체력에서 화염 상태 데미지 차감
+            Debug.Log("Ignite damage applied: " + igniteDamage);
+            DecreaseHealth(igniteDamage); // Subtract ignite damage from current health
 
-            if(currentHealth <0)
-              Die(); // 체력이 0 이하가 되면 사망 처리
+            if (currentHealth < 0)
+                Die(); // If health is 0 or below, handle death
 
-
-            igniteDamageTimer = igniteDamageCooldown; // 쿨타임 초기화          
+            igniteDamageTimer = igniteDamageCooldown; // Reset cooldown
         }
     }
 
-
-
-
     public virtual void DoDamage(CharacterStats _targetStats)
     {
-        // 대상이 공격을 회피했는지 확인
+        // Check if the target can avoid the attack
         if (TargetCanAvoidAttack(_targetStats))
             return;
 
-        // 물리 데미지 계산 (기본 데미지 + 힘)
+        // Calculate physical damage (base damage + strength)
         int totalDamage = damage.GetValue() + strength.GetValue();
 
-        // 치명타 확인 및 계산
+        // Check for critical hit and calculate damage
         if (CanCrit())
         {
             totalDamage = CalculateCriticalDamage(totalDamage);
-            
         }
 
-        // 대상의 방어력 적용
+        // Apply target's armor
         totalDamage = CheckTargetArmor(_targetStats, totalDamage);
-        // 데미지 적용
+        // Apply damage
         _targetStats.TakeDamage(totalDamage);
-        // 마법 데미지 적용
+        // Apply magical damage
         DoMagicalDamage(_targetStats);
-
     }
 
     public virtual void DoMagicalDamage(CharacterStats _targetStats)
     {
-        // 각 속성별 마법 데미지 계산
+        // Calculate damage for each magic type
         int _fireDamage = fireDamage.GetValue();
         int _iceDamage = iceDamage.GetValue();
         int _lightingDamage = lightingDamage.GetValue();
 
-        // 전체 마법 데미지 계산 (각 속성 데미지 + 지능)
+        // Calculate total magical damage (each type of damage + intelligence)
         int totalMagicalDamage = _fireDamage + _iceDamage + _lightingDamage + intelligence.GetValue();
-        // 대상의 마법 저항력 적용
+        // Apply target's magic resistance
         totalMagicalDamage = CheckTargetResistance(_targetStats, totalMagicalDamage);
 
-        // 데미지 적용
+        // Apply damage
         _targetStats.TakeDamage(totalMagicalDamage);
 
-
-        if(Mathf.Max(_fireDamage, _iceDamage, _lightingDamage) <= 0)
+        if (Mathf.Max(_fireDamage, _iceDamage, _lightingDamage) <= 0)
         {
-            return; // 모든 속성 데미지가 0 이하일 경우 상태이상 적용하지 않음
+            return; // Do not apply status effects if all damage types are 0 or below
         }
 
+        // Check conditions for applying status effects
+        bool canApplyIgnite = _fireDamage > _iceDamage && _fireDamage > _lightingDamage;  // Apply ignite if fire damage is highest
+        bool canApplyChill = _iceDamage > _fireDamage && _iceDamage > _lightingDamage;     // Apply chill if ice damage is highest
+        bool canApplyShock = _lightingDamage > _fireDamage && _lightingDamage > _iceDamage; // Apply shock if lightning damage is highest
 
-        // 상태이상 적용 조건 확인
-        bool canApplyIgnite = _fireDamage >_iceDamage && _fireDamage > _lightingDamage;  // 화염 데미지가 다른 데미지보다 높을 때 점화 가능
-        bool canApplyChill = _iceDamage>_fireDamage && _iceDamage > _lightingDamage;     // 빙결 데미지가 다른 데미지보다 높을 때 냉각 가능
-        bool canApplyShock = _lightingDamage>_fireDamage && _lightingDamage > _iceDamage; // 번개 데미지가 다른 데미지보다 높을 때 감전 가능
-
-        // 모든 상태이상 조건이 충족되지 않았을 경우 실행되는 루프
-        while(!canApplyIgnite && !canApplyChill && !canApplyShock)
+        // Loop if no status effect conditions are met
+        while (!canApplyIgnite && !canApplyChill && !canApplyShock)
         {
-            // 50% 확률로 화염 데미지가 0보다 크면 점화 상태를 적용
-            if(Random.value <0.35f && _fireDamage >0)
+            // 35% chance to apply ignite if fire damage is greater than 0
+            if (Random.value < 0.35f && _fireDamage > 0)
             {
                 canApplyIgnite = true;
-                _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // 상태이상 적용
-                Debug.Log("점화 상태 적용됨");
+                _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // Apply status effects
+                Debug.Log("Ignite status applied");
                 return;
             }
 
-            // 50% 확률로 빙결 데미지가 0보다 크면 빙결 상태를 적용
-            if(Random.value <0.25f && _iceDamage >0)
+            // 25% chance to apply chill if ice damage is greater than 0
+            if (Random.value < 0.25f && _iceDamage > 0)
             {
                 canApplyChill = true;
-                _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // 상태이상 적용
-                Debug.Log("빙결 상태 적용됨");
+                _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // Apply status effects
+                Debug.Log("Chill status applied");
                 return;
             }
-            
-            // 50% 확률로 번개 데미지가 0보다 크면 감전 상태를 적용
-            if(Random.value <0.15f && _lightingDamage >0)
+
+            // 15% chance to apply shock if lightning damage is greater than 0
+            if (Random.value < 0.15f && _lightingDamage > 0)
             {
                 canApplyShock = true;
-                _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // 상태이상 적용
-                Debug.Log("감전 상태 적용됨");
+                _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // Apply status effects
+                Debug.Log("Shock status applied");
                 return;
             }
 
-            // 위 세 조건 중 하나도 충족되지 않으면 루프가 계속 실행됨
+            // Loop continues if none of the conditions are met
         }
 
+        if (canApplyIgnite)
+            _targetStats.SetupIgniteDamage(Mathf.RoundToInt(_fireDamage * 0.2f)); // Set ignite damage
 
-        if(canApplyIgnite)
-          _targetStats.SetupIgniteDamage(Mathf.RoundToInt(_fireDamage *0.2f)); // 점화 상태 데미지 설정
-
-        _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // 상태이상 적용
-
-
+        _targetStats.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock); // Apply status effects
     }
 
-    private  int CheckTargetResistance(CharacterStats _targetStats, int totalMagicalDamage)
+    private int CheckTargetResistance(CharacterStats _targetStats, int totalMagicalDamage)
     {
-        // 마법 데미지에서 대상의 마법 저항력과 지능 보너스를 차감
+        // Subtract target's magic resistance and intelligence bonus from magical damage
         totalMagicalDamage -= _targetStats.magicResistance.GetValue() + (_targetStats.intelligence.GetValue() * 3);
-        // 0 이하로 내려가지 않도록 제한
+        // Clamp to ensure damage does not go below 0
         totalMagicalDamage = Mathf.Clamp(totalMagicalDamage, 0, int.MaxValue);
         return totalMagicalDamage;
     }
 
     public void ApplyAilments(bool _ignite, bool _chill, bool _shock)
     {
-        // 이미 상태이상이 적용되어 있으면 무시
+        // Ignore if any status effect is already applied
         if (isIgnited || isChilled || isShocked)
         {
             return;
         }
 
-        if(_ignite)
+        if (_ignite)
         {
-            isIgnited = _ignite;  // 점화 상태 적용
-            ignitedTimer = 2; // 점화 상태 지속 시간 설정
-        }
-  
-        if(_chill)
-        {
-            isChilled = _chill; // 빙결 상태 적용
-            chilledTimer = 2; // 빙결 상태 지속 시간 설정
-        }
-        if(_shock)
-        {
-            isShocked = _shock; // 감전 상태 적용
-            shockedTimer = 2; // 감전 상태 지속 시간 설정
+            isIgnited = _ignite;  // Apply ignite status
+            ignitedTimer = 2; // Set ignite status duration
         }
 
-       
-       
+        if (_chill)
+        {
+            isChilled = _chill; // Apply chill status
+            chilledTimer = 2; // Set chill status duration
+        }
+        if (_shock)
+        {
+            isShocked = _shock; // Apply shock status
+            shockedTimer = 2; // Set shock status duration
+        }
     }
 
-  
-    public void SetupIgniteDamage(int _damage) => igniteDamage = _damage; // 화염 상태 데미지 설정
+    public void SetupIgniteDamage(int _damage) => igniteDamage = _damage; // Set ignite damage
 
-
-
-
-    private  int CheckTargetArmor(CharacterStats _targetStats, int totalDamage)
+    private int CheckTargetArmor(CharacterStats _targetStats, int totalDamage)
     {
+        if (_targetStats.isChilled)
+            totalDamage -= Mathf.RoundToInt(_targetStats.armor.GetValue() * 0.8f); // Reduce armor by 20% if chilled
+        else
+            totalDamage -= _targetStats.armor.GetValue(); // Subtract armor
 
-        if(_targetStats.isChilled)
-           totalDamage -= Mathf.RoundToInt(_targetStats.armor.GetValue() *0.8f); // 빙결 상태일 경우 방어력 20% 감소
-        else 
-            totalDamage -= _targetStats.armor.GetValue(); // 방어력 차감
-
-       
-        // 0 이하로 내려가지 않도록 제한
+        // Clamp to ensure damage does not go below 0
         totalDamage = Mathf.Clamp(totalDamage, 0, int.MaxValue);
         return totalDamage;
     }
 
     private bool TargetCanAvoidAttack(CharacterStats _targetStats)
     {
-
-
-
-        // 총 회피율 계산 (회피 + 민첩성)
+        // Calculate total evasion (evasion + agility)
         int totalEvasion = _targetStats.evasion.GetValue() + _targetStats.agility.GetValue();
 
-
-        if(isShocked)
+        if (isShocked)
         {
-            totalEvasion +=20; // 감전 상태일 경우 회피율 20% 증가
+            totalEvasion += 20; // Increase evasion by 20% if shocked
         }
 
-
-
-        // 회피 확률 체크 (0~100 사이 난수가 총 회피율보다 작으면 회피 성공)
+        // Check evasion chance (if random value between 0 and 100 is less than total evasion, attack is avoided)
         if (Random.Range(0, 100) < totalEvasion)
         {
             return true;
-
         }
         return false;
     }
 
-
-
-    
-
-
-
     public virtual void TakeDamage(int _damage)
     {
-        // 현재 체력에서 데미지 차감
-        currentHealth -= _damage;
+        // Subtract damage from current health
+        DecreaseHealth(_damage);
 
         Debug.Log(_damage);
 
-        // 체력이 0 이하면 사망 처리
+        // Handle death if health is 0 or below
         if (currentHealth < 0)
             Die();
+        
+        // onHealthChanged?.Invoke(); // Invoke health changed event
     }
+
+
+    protected virtual void DecreaseHealth(int _damage)
+  {
+     currentHealth -= _damage; // 현재 체력에서 데미지 차감
+      
+      if(onHealthChanged != null)
+        onHealthChanged(); // 체력 변경 시 델리게이트 호출
+  }
+
 
     protected virtual void Die()
     {
-        // 자식 클래스에서 오버라이드하여 사망 처리 구현
+        // Override in child classes to implement death handling
     }
-
-
 
     private bool CanCrit()
     {
-        // 총 치명타 확률 계산 (치명타 확률 + 민첩성)
+        // Calculate total critical hit chance (critical hit chance + agility)
         int totalCriticalChance = critChance.GetValue() + agility.GetValue();
 
-        // 치명타 확률 체크 (0~100 사이 난수가 총 치명타 확률보다 작거나 같으면 치명타 적중)
-        if(Random.Range(0,100) <= totalCriticalChance)
+        // Check critical hit chance (if random value between 0 and 100 is less than or equal to total critical chance, critical hit occurs)
+        if (Random.Range(0, 100) <= totalCriticalChance)
         {
             return true;
         }
@@ -312,12 +278,17 @@ public class CharacterStats : MonoBehaviour
 
     private int CalculateCriticalDamage(int _damage)
     {
-        // 총 치명타 배율 계산 ((치명타 파워 + 힘) / 100)
-        float totalCritPower = (critPower.GetValue() + strength.GetValue()) * 0.01f;  
-        // 치명타 데미지 계산 (기본 데미지 * 치명타 배율)
+        // Calculate total critical hit multiplier ((critical hit power + strength) / 100)
+        float totalCritPower = (critPower.GetValue() + strength.GetValue()) * 0.01f;
+        // Calculate critical hit damage (base damage * critical hit multiplier)
         float critDamage = _damage * totalCritPower;
-        
-        // 정수로 반올림하여 반환
+
+        // Round to nearest integer and return
         return Mathf.RoundToInt(critDamage);
+    }
+
+    public int GetMaxHealthValue()
+    {
+        return maxHealth.GetValue() + vitality.GetValue() * 5; // Calculate maximum health (base maximum health + vitality * 5)
     }
 }
