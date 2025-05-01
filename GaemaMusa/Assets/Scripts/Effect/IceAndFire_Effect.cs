@@ -12,7 +12,7 @@ public class IceAndFire_Effect : ItemEffect
     {
         Player player = PlayerManager.instance.player;
 
-        bool thirdAttack = player.primaryAttack.comboCounter == 2;
+        bool thirdAttack = player.primaryAttackState.comboCounter == 2;
 
         if (thirdAttack)
         {

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
@@ -40,6 +41,7 @@ public class CharacterStats : MonoBehaviour
     public int currentHealth; // Current health
 
     public System.Action onHealthChanged; // Handle damage effect (override in child classes)
+    public bool isDead { get; private set; }
 
 
     protected virtual void Start()
@@ -78,6 +80,24 @@ public class CharacterStats : MonoBehaviour
             igniteDamageTimer = igniteDamageCooldown; // Reset cooldown
         }
     }
+
+
+    public virtual void IncreaseStatBy(int _modifier, float _duration, Stat _statToModify)
+    {
+        // start corototuine for stat increase
+        StartCoroutine(StatModCoroutine(_modifier, _duration, _statToModify));
+    }
+
+
+    private IEnumerator StatModCoroutine(int _modifier, float _duration, Stat _statToModify)
+    {
+        _statToModify.AddModifier(_modifier);
+
+        yield return new WaitForSeconds(_duration);
+
+        _statToModify.RemoveModifier(_modifier);
+    }
+
 
     public virtual void DoDamage(CharacterStats _targetStats)
     {
@@ -245,6 +265,18 @@ public class CharacterStats : MonoBehaviour
             Die();
         
         onHealthChanged?.Invoke(); // Invoke health changed event
+    }
+
+
+    public virtual void IncreaseHealthBy(int _amount)
+    {
+        currentHealth += _amount;
+
+        if (currentHealth > GetMaxHealthValue())
+            currentHealth = GetMaxHealthValue();
+
+        if (onHealthChanged != null)
+            onHealthChanged();
     }
 
 
