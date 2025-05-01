@@ -144,6 +144,40 @@ public class Player : Entity
 
     public void CheckForDashInput()
     {
+        //if (IsWallDetected())
+        //    return;
+
+
+
+        //dashUsageTimer -= Time.deltaTime;
+
+        //if (dashUsageTimer < 0)
+        //{
+        //    dashUsageTimer = dashCooldown;
+
+        //    dashDir = Input.GetAxisRaw("Horizontal");
+
+        //    if (dashDir == 0)
+        //        dashDir = facingDir;
+
+        //    if (!IsEnemyDetectedLeft())
+        //        dashDir = 1;
+        //    stateMachine.ChangeState(dashState);
+        //}
+
+
+        //if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
+        //{
+
+        //    dashDir = Input.GetAxisRaw("Horizontal");
+
+        //    if (dashDir == 0)
+        //        dashDir = facingDir;
+
+
+        //    stateMachine.ChangeState(dashState);
+        //}
+
         if (IsWallDetected())
             return;
 
