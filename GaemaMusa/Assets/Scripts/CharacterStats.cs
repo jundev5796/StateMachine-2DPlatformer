@@ -244,7 +244,7 @@ public class CharacterStats : MonoBehaviour
         if (currentHealth < 0)
             Die();
         
-        // onHealthChanged?.Invoke(); // Invoke health changed event
+        onHealthChanged?.Invoke(); // Invoke health changed event
     }
 
 
