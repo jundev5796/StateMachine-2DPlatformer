@@ -9,6 +9,14 @@ public class Player : Entity
     public Vector2[] attackMovement;
     public float counterAttackDuration = 0.2f;
 
+
+    [Header("Attack Info")]
+    public float attackDistance;
+    public float attackCooldown;
+    [HideInInspector] public float lasttimeAttacked;
+    [SerializeField] protected LayerMask whatIsEnemy;
+
+
     public bool isBusy { get; private set; }
     [Header("Move Info")]
     public float moveSpeed = 12f;
@@ -16,8 +24,11 @@ public class Player : Entity
     public float swordReturnImpact;
 
     [Header("Dash Info")]
+    [SerializeField] private float dashCooldown;
+    private float dashUsageTimer;
     public float dashSpeed;
     public float dashDuration;
+    private float defaultDashSpeed;
     public float dashDir { get; private set; }
 
 
@@ -124,14 +135,35 @@ public class Player : Entity
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
 
-    private void CheckForDashInput()
+    public virtual RaycastHit2D IsEnemyDetected() => Physics2D.Raycast(wallCheck.position,
+     Vector2.right * facingDir, 50, whatIsEnemy);
+
+    public virtual RaycastHit2D IsEnemyDetectedLeft() => Physics2D.Raycast(wallCheck.position,
+        Vector2.right * -facingDir, 50, whatIsEnemy);
+
+
+    public void CheckForDashInput()
     {
         if (IsWallDetected())
             return;
 
-       
         if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
+            dashUsageTimer -= Time.deltaTime;
+
+            if (dashUsageTimer < 0)
+            {
+                dashUsageTimer = dashCooldown;
+
+                dashDir = Input.GetAxisRaw("Horizontal");
+
+                if (dashDir == 0)
+                    dashDir = facingDir;
+
+
+                stateMachine.ChangeState(dashState);
+            }
+
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)

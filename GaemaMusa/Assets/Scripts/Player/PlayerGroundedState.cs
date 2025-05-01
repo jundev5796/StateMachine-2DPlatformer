@@ -22,6 +22,33 @@ public class PlayerGroundedState : PlayerState
         //if (Input.GetKeyDown(KeyCode.LeftShift))
         //    stateMachine.ChangeState(player.dashState);
 
+        if (player.IsEnemyDetected())
+        {
+            player.CheckForDashInput();
+            if (player.IsEnemyDetected().distance < player.attackDistance)
+            {
+
+                stateMachine.ChangeState(player.primaryAttackState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.moveState);
+            }
+        }
+        else if (player.IsEnemyDetectedLeft())
+        {
+            player.CheckForDashInput();
+            if (player.IsEnemyDetectedLeft().distance < player.attackDistance)
+            {
+
+                stateMachine.ChangeState(player.primaryAttackState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.moveState);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Z))
             stateMachine.ChangeState(player.blackHoleState);
 
